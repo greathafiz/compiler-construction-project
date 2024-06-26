@@ -139,18 +139,18 @@ export function applySubstitution(
   typ: Type,
   subst: { [key: string]: Type }
 ): Type {
-  //   if (typ instanceof VarType) {
-  //     return subst[typ.name] || typ;
-  //   } else if (typ instanceof FunType) {
-  //     return new FunType(
-  //       applySubstitution(typ.paramType, subst),
-  //       applySubstitution(typ.returnType, subst)
-  //     );
-  //   } else if (typ instanceof TupleType) {
-  //     return new TupleType(
-  //       typ.elementTypes.map((t) => applySubstitution(t, subst))
-  //     );
-  //   } else {
-  return typ.applySubstitution(subst);
-  //   }
+  if (typ instanceof VarType) {
+    return subst[typ.name] || typ;
+  } else if (typ instanceof FunType) {
+    return new FunType(
+      applySubstitution(typ.paramType, subst),
+      applySubstitution(typ.returnType, subst)
+    );
+  } else if (typ instanceof TupleType) {
+    return new TupleType(
+      typ.elementTypes.map((t) => applySubstitution(t, subst))
+    );
+  } else {
+    return typ.applySubstitution(subst);
+  }
 }

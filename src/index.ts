@@ -1,30 +1,23 @@
 // src/index.ts
 
-import { Int, Bool, Var, Add, Let, Fun, App, Tuple } from "./ast";
+import { parse } from "./parser";
 import { TypeInfer, unify, applySubstitution } from "./typeInfer";
 import { TypeEnv } from "./typeEnv";
 
-// Example program: let id = fun x -> x in (id 5, id true)
-const idFun = new Fun("x", new Var("x"));
-const exampleExpr = new Let(
-  "id",
-  idFun,
-  new Tuple([
-    new App(new Var("id"), new Int(5)),
-    new App(new Var("id"), new Bool(true)),
-  ])
-);
+// Example program
+const input = `let add = fun x -> fun y -> x + y in add 3 4`;
+
+// Parse the input to get the AST
+const exampleExpr = parse(input);
 
 // Perform type inference
 const typeInfer = new TypeInfer();
 const env = new TypeEnv();
-
 const [exprType, constraints] = typeInfer.infer(exampleExpr, env);
-console.log("Constraints:", constraints);
+// console.log("Constraints:", constraints);
 
 const substitution = unify(constraints);
 // console.log("Substitutions:", substitution);
 
 const finalType = applySubstitution(exprType, substitution);
-
 console.log(`Final type: ${finalType}`);

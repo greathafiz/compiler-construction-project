@@ -1,47 +1,69 @@
 // src/ast.ts
 
-export type Expr = Int | Bool | Var | Add | Sub | Let | If | Fun | App | Tuple;
+export abstract class Expr {}
 
-export class Int {
-  constructor(public value: number) {}
+export class Int extends Expr {
+  constructor(public value: number) {
+    super();
+  }
 }
 
-export class Bool {
-  constructor(public value: boolean) {}
+export class Bool extends Expr {
+  constructor(public value: boolean) {
+    super();
+  }
 }
 
-export class Var {
-  constructor(public name: string) {}
+export class Var extends Expr {
+  constructor(public name: string) {
+    super();
+  }
 }
 
-export class Add {
-  constructor(public left: Expr, public right: Expr) {}
+export class Add extends Expr {
+  constructor(public left: Expr, public right: Expr) {
+    super();
+  }
 }
 
-export class Sub {
-  constructor(public left: Expr, public right: Expr) {}
+export class Sub extends Expr {
+  constructor(public left: Expr, public right: Expr) {
+    super();
+  }
 }
 
-export class Let {
-  constructor(public varName: string, public value: Expr, public body: Expr) {}
+export class Let extends Expr {
+  constructor(public varName: string, public value: Expr, public body: Expr) {
+    super();
+  }
 }
 
-export class If {
-  constructor(
-    public cond: Expr,
-    public thenExpr: Expr,
-    public elseExpr: Expr
-  ) {}
+export class If extends Expr {
+  constructor(public cond: Expr, public thenExpr: Expr, public elseExpr: Expr) {
+    super();
+  }
 }
 
-export class Fun {
-  constructor(public param: string, public body: Expr) {}
+export class Fun extends Expr {
+  constructor(public param: string, public body: Expr) {
+    super();
+  }
 }
 
-export class App {
-  constructor(public func: Expr, public arg: Expr) {}
+export class App extends Expr {
+  constructor(public func: Expr, public arg: Expr) {
+    super();
+  }
 }
 
-export class Tuple {
-  constructor(public elements: Expr[]) {}
+export class Tuple extends Expr {
+  constructor(public elements: Expr[]) {
+    super();
+  }
+}
+
+export class TupleAccess extends Expr {
+  constructor(public tuple: Expr, public index: number) {
+    super();
+  }
 }
